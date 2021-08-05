@@ -6,8 +6,10 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
+const cors = require('cors');
 /* const {authUser} = require('./routes/basicAuth'); */
-/* const hbs = require("hbs"); */
+
+
 
 
 //DATA BASE
@@ -28,6 +30,7 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors()); // to enable the server receive data
 
 //SESSION
 app.set("trust proxy", 1);
@@ -65,6 +68,7 @@ hbs.registerPartials(__dirname + "/views/partials"); */
 //require('./error-handling')(app);
 
 
+app.use('/', require('./routes/auth-routes.js'));
 /* app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login-routes.js'));
 app.use('/signup', require('./routes/signup-routes.js'));
