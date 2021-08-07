@@ -12,6 +12,7 @@ const cors = require('cors');
 
 
 
+
 //DATA BASE
 const DB_NAME = process.env.MONGODB_URI;
  
@@ -45,7 +46,7 @@ app.use(session({
     mongoUrl: process.env.MONGODB_URI,
     ttl: 60*60*24,
    /*  crypto: {
-      secret: 'squirrel' //For sensitive data, encryption
+      secret: 'squirrel' //For sensitive data, encryption. Commented to use later
     } */
   })
 })) 
@@ -53,8 +54,7 @@ app.use(session({
 
 
  
-app.use(passport.initialize())
-// Enable authentication using session + passport
+app.use(passport.initialize())// Enable authentication using session + passport
 app.use(passport.session())
 
 /* app.set("views", path.join(__dirname, ".", "views"));
@@ -67,8 +67,9 @@ hbs.registerPartials(__dirname + "/views/partials"); */
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 //require('./error-handling')(app);
 
-
 app.use('/', require('./routes/auth-routes.js'));
+app.use('/patients', require('./routes/patient-routes'));
+/* app.use('/patients', require('./routes/patient-routes.js')); */
 /* app.use('/', require('./routes/index'));
 app.use('/login', require('./routes/login-routes.js'));
 app.use('/signup', require('./routes/signup-routes.js'));
@@ -77,6 +78,6 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico"))); */
 
 
-//const PORT = process.env.PORT || 3000;
+//const PORT = process.env.PORT || 5000;
 app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))
 
