@@ -29,12 +29,13 @@ router.get('/all', (req, res, next) => {
         .catch(error => console.log(`Error while searching a new patient:`, error));
 })
 
-//ALL PATIENTS FROM ONE PROFESSIONAL
-router.get('/', (req, res, next) => {
+//ALL PATIENTS FROM ONE PROFESSIONAL - should I populate patients?
+router.get('/mypatients', (req, res, next) => {
     console.log('PATIENTS API REQ SESS',req.session)
     Professional.find()
-        .then((professionalsFromDb) =>{
-            res.status(200).json(professionalsFromDb);
+        .populate('patients')
+        .then((patientsFromDb) =>{
+            res.status(200).json(patientsFromDb);
         })
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
