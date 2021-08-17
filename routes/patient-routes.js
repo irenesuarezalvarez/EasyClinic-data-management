@@ -7,7 +7,7 @@ const Professional = require('../models/Professional.model');
 //CREATE DATA ROUTE
 router.post('/create', (req, res, next) => {
     const { name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history } = req.body;
- 
+    console.log('Create req sess', req.session)
     Patient.create({ name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history })
         .then((patientsFromDb) => {
         return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
