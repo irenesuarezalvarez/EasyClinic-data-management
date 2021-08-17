@@ -35,6 +35,7 @@ router.post('/signup', (req, res, next) => {
         })
   });
 
+//Code to use later
 /* router("/over"((req, res)=>{
     User.find()
     .then(foundCards => res.json(foundCards))
@@ -61,7 +62,7 @@ router.post('/login', (req, res, next) => {
           return;
       } else if (bcrypt.compareSync(password, professional.passwordHash)) {
         req.session.user = professional;
-        console.log('No error')
+        console.log('No error', req.session)
         res.status(200).json(professional);
       } else {
         console.log('error 3')
