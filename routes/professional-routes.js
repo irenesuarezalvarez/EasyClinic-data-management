@@ -5,7 +5,6 @@ const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
 //CREATE DATA ROUTE
 router.get('/', (req, res, next) => {
-    
     Professional.find()
         .then((professionalsFromDb) =>{
             res.status(200).json(professionalsFromDb);

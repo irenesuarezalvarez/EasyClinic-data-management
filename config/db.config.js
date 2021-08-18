@@ -1,20 +1,21 @@
 const mongoose = require('mongoose')
-const MONGODB_URI = process.env.MONGODB_URI
+const DB_NAME = process.env.MONGODB_URI
 
 mongoose
-  .connect(MONGODB_URI, {
+  .connect(DB_NAME, {
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
+    /* useFindAndModify: false, */ //needed?
   })
   .then(() =>
-    console.log(`Successfully connected to the database ${MONGODB_URI}`)
+    console.log(`Successfully connected to the database ${DB_NAME}`)
   )
   .catch((error) => {
     console.error(
-      `An error ocurred trying to connect to the database ${MONGODB_URI}: `,
+      `An error ocurred trying to connect to the database ${DB_NAME}: `,
       error
     );
     process.exit(1);
   });
+

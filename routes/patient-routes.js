@@ -31,7 +31,6 @@ router.get('/all', (req, res, next) => {
 
 //ALL PATIENTS FROM ONE PROFESSIONAL - should I populate patients?
 router.get('/mypatients', (req, res, next) => {
-    console.log('PATIENTS API REQ SESS',req.session)
     Professional.find()
         .populate('patients')
         .then((patientsFromDb) =>{
@@ -39,7 +38,45 @@ router.get('/mypatients', (req, res, next) => {
         })
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
+//EDIT PATIENT
 
+router.get('/edit/:id', (req, res, next) => {
+    const { id } = req.params;
+    console.log('PATIENT TO EDIT API', id)
+    Patient.findById(id)
+            .populate("professional") 
+            .then((patientToEdit) =>{
+            res.status(200).json(patientToEdit);
+        })
+        .catch(error => console.log(`Error while creating a new patient:`, error));
+})
+
+router.post('/edit/:id', (req, res, next) => {
+    const { id } = req.params;
+    const {  name } = req.body;
+    Patient.findByIdAndUpdate(id, { name }, { new: true })
+        .then(() =>{
+            res.status(200);
+        })
+        .catch(error => console.log(error));
+})
+
+//FROM MODULE 2
+/* 
+router.get('/:id/edit', (req, res) => {
+    const { id } = req.params;
+    Patient.findById(id)
+      .populate("professional")
+      .then((patientToEdit) => {
+        Professional.find()
+        .then((professional) => {
+          console.log('PATIENT TO EDIT routes', patientToEdit)
+          res.render('patients/edit-patient', {patient : patientToEdit, professional})
+        })
+        .catch((err) => console.log(`Err while displaying post input page: ${err}`));
+      })
+      .catch(error => next(error));
+  }); */
 //DELETE PATIENT
 router.delete('/all/:id', (req, res, next) => {
     const { id } = req.params;
