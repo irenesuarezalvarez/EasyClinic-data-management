@@ -53,10 +53,11 @@ router.get('/edit/:id', (req, res, next) => {
 
 router.post('/edit/:id', (req, res, next) => {
     const { id } = req.params;
-    const {  name } = req.body;
-    Patient.findByIdAndUpdate(id, { name }, { new: true })
-        .then(() =>{
-            res.status(200);
+    /* const {  name } = req.body; */
+    Patient.findByIdAndUpdate(id, req.body , { new : true })
+        .then((data) =>{
+            console.log("Here is the data", data);
+            res.status(200).json(data);
         })
         .catch(error => console.log(error));
 })
@@ -107,4 +108,14 @@ router.delete('/all/:id', (req, res, next) => {
     }
   }); */
 
+  //Sessions
+  router.get('/sessions/:id', (req, res, next) => {
+    const { id } = req.params;
+    Patient.findById(id)
+            .populate("history") 
+            .then((sessions) =>{
+            res.status(200).json(sessions);
+        })
+        .catch(error => console.log(`Error while creating a new patient:`, error));
+})
 module.exports = router;

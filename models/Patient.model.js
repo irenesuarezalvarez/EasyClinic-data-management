@@ -15,7 +15,7 @@ const patientSchema = new Schema({
     contactemail: String,
     contactphone: Number,
     professional: [{ type: Schema.Types.ObjectId, ref: 'Professional' }],
-    history: String
+    history:  [{ type: Schema.Types.ObjectId, ref: 'Session' }]
 });
 
 
