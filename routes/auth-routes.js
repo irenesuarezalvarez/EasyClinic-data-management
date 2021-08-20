@@ -35,19 +35,13 @@ router.post('/signup', (req, res, next) => {
         })
   });
 
-//Code to use later
-/* router("/over"((req, res)=>{
-    User.find()
-    .then(foundCards => res.json(foundCards))
-}) */
 
 //LOG-IN POST ROUTE
 router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
  
   if (email === '' || password === '') {
-    console.log('Error 1 Empty email and pass')
-    res.status(401).json({
+      res.status(401).json({
       errorMessage: 'Please enter both, email and password to login.'
     });
     return;
@@ -57,22 +51,24 @@ router.post('/login', (req, res, next) => {
     .then(professional => {
     
       if (!professional) {
-        console.log('Error 2 Email wrong')
-          res.status(401).json({ errorMessage: 'Email is not registered. Try with other email.' });
-          return;
+        res.status(401).json({ errorMessage: 'Email is not registered. Try with other email.' });
+        return;
       } else if (bcrypt.compareSync(password, professional.passwordHash)) {
         req.session.user = professional;
-        console.log('No error', req.session)
+        console.log('No error, user set to the session', req.session)
         res.status(200).json(professional);
       } else {
-        console.log('error 3')
-          res.status(401).json({ errorMessage: 'Incorrect password.' });
+        res.status(401).json({ errorMessage: 'Incorrect password.' });
       }
     })
     .catch(error => next(error));
 });
 
-
-
+//LOG OUT
+router.post('/logout', (req, res) => {
+  console.log('Logged out', req.session.user)
+  req.session.destroy();
+  res.status(200)
+});
 
 module.exports = router;
