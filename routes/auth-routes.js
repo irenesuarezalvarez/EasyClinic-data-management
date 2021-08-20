@@ -6,6 +6,7 @@ const Professional = require('../models/Professional.model');
 
 const bcryptSalt = 10;
 
+//SIGN UP
 router.post('/signup', (req, res, next) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password ) {
