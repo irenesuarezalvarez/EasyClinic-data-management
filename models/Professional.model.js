@@ -3,9 +3,6 @@ const Schema = mongoose.Schema;
 
 const professionalSchema = new Schema(
     {
-      role: {
-        type: String
-      },
       username: {
         type: String,
         trim: true,
@@ -19,6 +16,9 @@ const professionalSchema = new Schema(
         unique: true,
         lowercase: true,
         trim: true
+      },
+      role: {
+        type: String
       },
       passwordHash: {
           type: String,

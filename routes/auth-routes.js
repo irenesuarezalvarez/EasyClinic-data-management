@@ -6,10 +6,10 @@ const Professional = require('../models/Professional.model');
 
 const bcryptSalt = 10;
 
-//SIGN UP
+//Sign up
 router.post('/signup', (req, res, next) => {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password ) {
+    const { username, email, role, password } = req.body;
+    if (!username || !email || !role || !password ) {
       res.status(401).json({ errorMessage: 'All fields are mandatory. Please provide your username, role, email and password.' });
       return;
     }
@@ -25,10 +25,12 @@ router.post('/signup', (req, res, next) => {
     //Bcrypt
     const salt = bcrypt.genSaltSync(bcryptSalt); //genrate a salt
     const passwordHash = bcrypt.hashSync(password, salt); //user password = hashed password
-    const newProf = new Professional({ username, email, passwordHash})
+    const newProf = new Professional({ username, email, role, passwordHash})
     newProf.save()
-        .then((user)=> {
-            res.status(200).json(user)
+        .then((newProfessional)=> {
+            req.session.user = newProfessional;
+            console.log('Asignadooo?', req.session) 
+            res.status(200).json(newProfessional)
         })
         .catch((error)=> {
             console.log(error)
@@ -37,7 +39,7 @@ router.post('/signup', (req, res, next) => {
   });
 
 
-//LOG-IN POST ROUTE
+//Log in 
 router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
  
@@ -65,11 +67,12 @@ router.post('/login', (req, res, next) => {
     .catch(error => next(error));
 });
 
-//LOG OUT
+//Log out
 router.post('/logout', (req, res) => {
   console.log('Logged out', req.session.user)
   req.session.destroy();
   res.status(200)
+  return;
 });
 
 module.exports = router;
