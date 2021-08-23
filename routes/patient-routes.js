@@ -79,18 +79,23 @@ router.get('/:id/edit', (req, res) => {
   }); */
 
 //Delete Patient
-router.delete('/all/:id', (req, res, next) => {
+router.delete('/all/:id', async (req, res, next) => {
     const { id } = req.params;
-    Professional.find()
-        .populate('patients')
-        .then(profs =>  {
-            $pull: {patients : id}
-        })
-    Patient.findByIdAndDelete(id)
+
+    try{
+        const patientArray = await Professional.findByIdAndUpdate(req.session.user._id, {
+            $pull: {patients: id}
+        });
+        const deletePatient = await Patient.findByIdAndDelete(id)
+    }
+    catch(error){
+        next(error)
+    }
+    /* Patient.findByIdAndDelete(id)
         .then((patientFromDb) =>{
             res.status(200).json(patientFromDb);
         })
-        .catch(error => console.log(`Error while deleting the patient:`, error));
+        .catch(error => console.log(`Error while deleting the patient:`, error)); */
 })
 //Model from module 2, maybe usefull for later
 /* router.delete('/:id/delete', async (req, res) => {
@@ -112,10 +117,8 @@ router.delete('/all/:id', (req, res, next) => {
 
 router.post('/search', (req, res, next) => {
     const { id } = req.params;
-    console.log('you are in the back', req.body)
-  /*   Patient.createIndex( { name: "text", surname: "text" } ) */
-
-    Patient.find( req.body )/* ( req.body ) */
+   
+    Patient.find( req.body )
             .then((data) =>{
             res.status(200).json(data);
         })
