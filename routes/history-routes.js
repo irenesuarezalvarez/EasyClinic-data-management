@@ -3,7 +3,7 @@ const router = express.Router();
 
 const History = require('../models/History.model');
 const Patient = require('../models/Patient.model');
-const Professional = require('../models/Professional.model');
+
 
 //Get history
 router.get('/history/:id', (req, res, next) => {
@@ -17,11 +17,11 @@ router.get('/history/:id', (req, res, next) => {
 })
 
 //Create Session
-router.post('/:id/session', (req, res, next) => {
+router.post('/history/:id', (req, res, next) => {
     const patientId = req.params.id; 
-    const { data, notes, content } = req.body;
+    const { date, notes, content } = req.body;
 
-    History.create({data, notes, content, patientId })
+    History.create({date, notes, content, patientId })
         .then((session) => {
         return Patient.findByIdAndUpdate( patientId, { $push: { history: session._id } });
     }) 
@@ -33,5 +33,19 @@ router.post('/:id/session', (req, res, next) => {
    
 })
 
+//Delte
+router.delete('/history/:id', async (req, res, next) => {
+    const { id } = req.params;
+   
+    try{
+        /* const historyArray = await Patient.findByIdAndUpdate(patient._id, {
+            $pull: {history: id}
+        }); */
+        const deleteSession = await History.findByIdAndDelete(id)
+    }
+    catch(error){
+        next(error)
+    }
+ })
 
 module.exports = router;

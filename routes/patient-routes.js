@@ -31,7 +31,6 @@ router.get('/all', (req, res, next) => {
 //Send patients from one professional from the db to the frontend
 router.get('/mypatients', (req, res, next) => {
     const id  =  req.session.user._id;
-    console.log('ESTA AQUI EL ERROR?', id)
     Professional.findById(id)
         .populate('patients')
         .then((patientsFromDb) =>{

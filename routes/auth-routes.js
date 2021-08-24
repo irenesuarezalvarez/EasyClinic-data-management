@@ -29,7 +29,6 @@ router.post('/signup', (req, res, next) => {
     newProf.save()
         .then((newProfessional)=> {
             req.session.user = newProfessional;
-            console.log('Asignadooo?', req.session) 
             res.status(200).json(newProfessional)
         })
         .catch((error)=> {
@@ -50,6 +49,7 @@ router.post('/login', (req, res, next) => {
     return;
   }
  
+  
   Professional.findOne({ email })
     .then(professional => {
     
@@ -58,7 +58,7 @@ router.post('/login', (req, res, next) => {
         return;
       } else if (bcrypt.compareSync(password, professional.passwordHash)) {
         req.session.user = professional;
-        console.log('No error, user set to the session', req.session)
+        console.log('No error, user set to the session', req.session.user)
         res.status(200).json(professional);
       } else {
         res.status(401).json({ errorMessage: 'Incorrect password.' });
@@ -69,7 +69,6 @@ router.post('/login', (req, res, next) => {
 
 //Log out
 router.post('/logout', (req, res) => {
-  console.log('Logged out', req.session.user)
   req.session.destroy();
   res.status(200)
   return;
