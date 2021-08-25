@@ -9,6 +9,7 @@ const bcryptSalt = 10;
 //Sign up
 router.post('/signup', (req, res, next) => {
     const { username, email, role, password } = req.body;
+   
     if (!username || !email || !role || !password ) {
       res.status(401).json({ errorMessage: 'All fields are mandatory. Please provide your username, role, email and password.' });
       return;
@@ -16,6 +17,7 @@ router.post('/signup', (req, res, next) => {
    
     const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!regex.test(password)) {
+     
       res
         .status(401)
         .json({ errorMessage: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.' });
@@ -29,10 +31,11 @@ router.post('/signup', (req, res, next) => {
     newProf.save()
         .then((newProfessional)=> {
             req.session.user = newProfessional;
+            console.log('New professional created and user assigned to ', newProfessional)
             res.status(200).json(newProfessional)
         })
         .catch((error)=> {
-            console.log(error)
+            console.log( error)
             res.status(400).json(error)
         })
   });
