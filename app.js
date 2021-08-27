@@ -11,6 +11,7 @@ const app = express()
 
 require("./config/db.config");
 require("./config/session.config")(app); 
+require("./config/cloudinary.config"); //ADDEEED
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

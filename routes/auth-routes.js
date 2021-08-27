@@ -73,8 +73,7 @@ router.post('/login', (req, res, next) => {
 //Log out
 router.post('/logout', (req, res) => {
   req.session.destroy();
-  res.status(200)
-  return;
+  res.status(200).json({message: 'Logged out properly'});
 });
 
 module.exports = router;
