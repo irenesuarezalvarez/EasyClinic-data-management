@@ -3,7 +3,8 @@ const router = express.Router();
 
 const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
-//CREATE DATA ROUTE
+
+//Send professionals from the db to the front end
 router.get('/', (req, res, next) => {
     Professional.find()
         .then((professionalsFromDb) =>{

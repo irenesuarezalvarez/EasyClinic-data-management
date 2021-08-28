@@ -4,10 +4,9 @@ const router = express.Router();
 const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
 
-//CREATE DATA ROUTE
+//Create new Patient
 router.post('/create', (req, res, next) => {
     const { name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history } = req.body;
-    console.log('Create req sess', req.session)
     Patient.create({ name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history })
         .then((patientsFromDb) => {
         return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
@@ -19,8 +18,8 @@ router.post('/create', (req, res, next) => {
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
 
-//SEND DATA LIST OF PATIENTS
-//ALL PATIENTS
+
+//Send all patients from the db to the frontend
 router.get('/all', (req, res, next) => {
     Patient.find()
         .then((patientsFromDb) =>{
@@ -29,31 +28,30 @@ router.get('/all', (req, res, next) => {
         .catch(error => console.log(`Error while searching a new patient:`, error));
 })
 
-//ALL PATIENTS FROM ONE PROFESSIONAL - should I populate patients?
+//Send patients from one professional from the db to the frontend
 router.get('/mypatients', (req, res, next) => {
-    Professional.find()
+    const id  =  req.session.user._id;
+    Professional.findById(id)
         .populate('patients')
         .then((patientsFromDb) =>{
             res.status(200).json(patientsFromDb);
         })
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
-//EDIT PATIENT
 
+//Edit Patient
 router.get('/edit/:id', (req, res, next) => {
     const { id } = req.params;
-    console.log('PATIENT TO EDIT API', id)
     Patient.findById(id)
             .populate("professional") 
             .then((patientToEdit) =>{
             res.status(200).json(patientToEdit);
         })
-        .catch(error => console.log(`Error while creating a new patient:`, error));
+        .catch(error => console.log(`Error while trying to edit a new patient:`, error));
 })
 
 router.post('/edit/:id', (req, res, next) => {
     const { id } = req.params;
-    /* const {  name } = req.body; */
     Patient.findByIdAndUpdate(id, req.body , { new : true })
         .then((data) =>{
             console.log("Here is the data", data);
@@ -78,19 +76,25 @@ router.get('/:id/edit', (req, res) => {
       })
       .catch(error => next(error));
   }); */
-//DELETE PATIENT
-router.delete('/all/:id', (req, res, next) => {
+
+//Delete Patient
+router.delete('/all/:id', async (req, res, next) => {
     const { id } = req.params;
-    Professional.find()
-        .populate('patients')
-        .then(profs =>  {
-                $pull: {patients : id}
-        })
-    Patient.findByIdAndDelete(id)
+
+    try{
+        const patientArray = await Professional.findByIdAndUpdate(req.session.user._id, {
+            $pull: {patients: id}
+        });
+        const deletePatient = await Patient.findByIdAndDelete(id)
+    }
+    catch(error){
+        next(error)
+    }
+    /* Patient.findByIdAndDelete(id)
         .then((patientFromDb) =>{
             res.status(200).json(patientFromDb);
         })
-        .catch(error => console.log(`Error while deleting the patient:`, error));
+        .catch(error => console.log(`Error while deleting the patient:`, error)); */
 })
 //Model from module 2, maybe usefull for later
 /* router.delete('/:id/delete', async (req, res) => {
@@ -108,14 +112,17 @@ router.delete('/all/:id', (req, res, next) => {
     }
   }); */
 
-  //Sessions
-  router.get('/sessions/:id', (req, res, next) => {
+//Search
+
+router.post('/search', (req, res, next) => {
     const { id } = req.params;
-    Patient.findById(id)
-            .populate("history") 
-            .then((sessions) =>{
-            res.status(200).json(sessions);
+   
+    Patient.find( req.body )
+            .then((data) =>{
+            res.status(200).json(data);
         })
-        .catch(error => console.log(`Error while creating a new patient:`, error));
+        .catch(error => console.log(`Error while trying to search for a patient:`, error));
 })
+
+
 module.exports = router;

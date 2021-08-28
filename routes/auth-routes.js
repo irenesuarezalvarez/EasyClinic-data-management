@@ -6,15 +6,18 @@ const Professional = require('../models/Professional.model');
 
 const bcryptSalt = 10;
 
+//Sign up
 router.post('/signup', (req, res, next) => {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password ) {
+    const { username, email, role, password } = req.body;
+   
+    if (!username || !email || !role || !password ) {
       res.status(401).json({ errorMessage: 'All fields are mandatory. Please provide your username, role, email and password.' });
       return;
     }
    
     const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!regex.test(password)) {
+     
       res
         .status(401)
         .json({ errorMessage: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.' });
@@ -24,19 +27,21 @@ router.post('/signup', (req, res, next) => {
     //Bcrypt
     const salt = bcrypt.genSaltSync(bcryptSalt); //genrate a salt
     const passwordHash = bcrypt.hashSync(password, salt); //user password = hashed password
-    const newProf = new Professional({ username, email, passwordHash})
+    const newProf = new Professional({ username, email, role, passwordHash})
     newProf.save()
-        .then((user)=> {
-            res.status(200).json(user)
+        .then((newProfessional)=> {
+            req.session.user = newProfessional;
+            console.log('New professional created and user assigned to ', newProfessional)
+            res.status(200).json(newProfessional)
         })
         .catch((error)=> {
-            console.log(error)
+            console.log( error)
             res.status(400).json(error)
         })
   });
 
 
-//LOG-IN POST ROUTE
+//Log in 
 router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
  
@@ -47,6 +52,7 @@ router.post('/login', (req, res, next) => {
     return;
   }
  
+  
   Professional.findOne({ email })
     .then(professional => {
     
@@ -55,7 +61,7 @@ router.post('/login', (req, res, next) => {
         return;
       } else if (bcrypt.compareSync(password, professional.passwordHash)) {
         req.session.user = professional;
-        console.log('No error, user set to the session', req.session)
+        console.log('No error, user set to the session', req.session.user)
         res.status(200).json(professional);
       } else {
         res.status(401).json({ errorMessage: 'Incorrect password.' });
@@ -64,11 +70,10 @@ router.post('/login', (req, res, next) => {
     .catch(error => next(error));
 });
 
-//LOG OUT
+//Log out
 router.post('/logout', (req, res) => {
-  console.log('Logged out', req.session.user)
   req.session.destroy();
-  res.status(200)
+  res.status(200).json({message: 'Logged out properly'});
 });
 
 module.exports = router;
