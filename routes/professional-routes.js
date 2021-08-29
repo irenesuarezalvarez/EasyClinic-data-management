@@ -8,7 +8,7 @@ const Professional = require('../models/Professional.model');
 router.get('/', (req, res, next) => {
     Professional.find()
         .then((professionalsFromDb) =>{
-            res.status(200).json(professionalsFromDb);
+            return res.status(200).json(professionalsFromDb);
         })
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
