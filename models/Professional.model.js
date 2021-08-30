@@ -20,6 +20,9 @@ const professionalSchema = new Schema(
       role: {
         type: String
       },
+      color:{
+        type: String
+      },
       passwordHash: {
           type: String,
           required: [true, 'Password is required.']
