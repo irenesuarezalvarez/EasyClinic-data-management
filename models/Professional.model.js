@@ -20,11 +20,15 @@ const professionalSchema = new Schema(
       role: {
         type: String
       },
+      color:{
+        type: String
+      },
       passwordHash: {
           type: String,
           required: [true, 'Password is required.']
       },
-      patients: [{ type: Schema.Types.ObjectId, ref: 'Patient'}] //NEW
+      patients: [{ type: Schema.Types.ObjectId, ref: 'Patient'}], 
+      appointment: [{ type: Schema.Types.ObjectId, ref: 'Appointment'}]
     },
     {
       timestamps: true
