@@ -8,12 +8,26 @@ const Professional = require('../models/Professional.model');
 
 //Create new Patient
 router.post('/create', (req, res, next) => {
-    console.log('backend create clou')
-    const { media, name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history } = req.body;
+    const { 
+        media, 
+        name, 
+        surname, 
+        email, 
+        phone, 
+        address, 
+        city, 
+        state, 
+        postal, 
+        contactname, 
+        contactsurname, 
+        contactemail, 
+        contactphone, 
+        professional, 
+        history } = req.body;
+
     Patient.create({ media, name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history })
         .then((patientsFromDb) => {
-            Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
-            return res.status(200)
+            return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
         }) 
         .then(() =>{
             console.log('New patient created in the backend')

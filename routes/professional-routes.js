@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
         .then((professionalsFromDb) =>{
             return res.status(200).json(professionalsFromDb);
         })
-        .catch(error => console.log(`Error while creating a new patient:`, error));
+        .catch(error => console.log(`Error while searching for professionals:`, error));
 })
 
 module.exports = router;

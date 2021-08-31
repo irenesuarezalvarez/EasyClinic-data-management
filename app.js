@@ -29,6 +29,7 @@ app.use(cors({ // to enable the server receive data
 app.use('/auth', require('./routes/auth-routes'));
 app.use('/patients', require('./routes/patient-routes'));
 app.use('/professionals', require('./routes/professional-routes'));
+app.use('/appointments', require('./routes/appointment-routes')); 
 app.use('/api', require('./routes/history-routes')); 
 /* app.use(express.static(path.join(__dirname, "public"))); */
 
