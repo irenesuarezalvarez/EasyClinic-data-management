@@ -34,13 +34,13 @@ router.post('/history/:id', (req, res, next) => {
 })
 
 //Delte
-router.delete('/history/:id', async (req, res, next) => {
+router.delete('/history/:id/:patient', async (req, res, next) => {
     const { id } = req.params;
    
     try{
         /* const historyArray = await Patient.findByIdAndUpdate(patient._id, {
             $pull: {history: id}
-        }); */
+        });  */
         const deleteSession = await History.findByIdAndDelete(id)
     }
     catch(error){
