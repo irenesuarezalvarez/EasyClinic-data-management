@@ -26,7 +26,7 @@ router.post('/history/create', (req, res, next) => {
     }) 
     .then(() =>{
         console.log('New session was saved to patient: ', patient)
-        return res.status(200);
+        return res.status(200).json('New sessopm was saved');
     })
     .catch(error => console.log(`Error while saving the session:`, error));
    
