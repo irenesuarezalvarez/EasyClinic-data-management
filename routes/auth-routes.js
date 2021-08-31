@@ -8,16 +8,15 @@ const bcryptSalt = 10;
 
 //Sign up
 router.post('/signup', (req, res, next) => {
-    const { username, email, role, password } = req.body;
+    const { username, email, role, color, password } = req.body;
    
-    if (!username || !email || !role || !password ) {
+    if (!username || !email || !role || !color || !password ) {
       res.status(401).json({ errorMessage: 'All fields are mandatory. Please provide your username, role, email and password.' });
       return;
     }
    
     const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
     if (!regex.test(password)) {
-     
       res
         .status(401)
         .json({ errorMessage: 'Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter.' });
@@ -27,16 +26,16 @@ router.post('/signup', (req, res, next) => {
     //Bcrypt
     const salt = bcrypt.genSaltSync(bcryptSalt); //genrate a salt
     const passwordHash = bcrypt.hashSync(password, salt); //user password = hashed password
-    const newProf = new Professional({ username, email, role, passwordHash})
+    const newProf = new Professional({ username, email, role, color, passwordHash})
     newProf.save()
         .then((newProfessional)=> {
             req.session.user = newProfessional;
-            console.log('New professional created and user assigned to ', newProfessional)
-            res.status(200).json(newProfessional)
+            console.log('New professional created', newProfessional)
+            return res.status(200).json(newProfessional)
         })
         .catch((error)=> {
             console.log( error)
-            res.status(400).json(error)
+            return res.status(400).json(error)
         })
   });
 
@@ -46,10 +45,9 @@ router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
  
   if (email === '' || password === '') {
-      res.status(401).json({
-      errorMessage: 'Please enter both, email and password to login.'
+      return res.status(401).json({
+        errorMessage: 'Please enter both, email and password to login.'
     });
-    return;
   }
  
   
@@ -73,7 +71,7 @@ router.post('/login', (req, res, next) => {
 //Log out
 router.post('/logout', (req, res) => {
   req.session.destroy();
-  res.status(200).json({message: 'Logged out properly'});
+  return res.status(200).json({message: 'Logged out properly'});
 });
 
 module.exports = router;
