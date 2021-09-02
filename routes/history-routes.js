@@ -32,25 +32,14 @@ router.post('/history/create', (req, res, next) => {
    
 })
 
-<<<<<<< HEAD
-//Delte
-router.delete('/history/:id/:patient', async (req, res, next) => {
-    const { id } = req.params;
-   
-=======
 //Delete
 router.delete('/history/:id/:patient', async (req, res, next) => {
     const { id, patient } = req.params;
   
->>>>>>> 19ea4e9668848f430ccec3753cf089c905b2c16c
     try{
         const historyArray = await Patient.findByIdAndUpdate(patient, {
             $pull: {history: id}
-<<<<<<< HEAD
-        });  */
-=======
         }); 
->>>>>>> 19ea4e9668848f430ccec3753cf089c905b2c16c
         const deleteSession = await History.findByIdAndDelete(id)
         return res.status(200).json('session deleted')
     }
