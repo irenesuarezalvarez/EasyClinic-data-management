@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 /* app.use(cookieParser()); */
 app.use(cors({ // to enable the server receive data
-  credentials: true,
-  origin: [process.env.CLIENT_URL]
+ 
+  origin: "*"
 }))
 
 
