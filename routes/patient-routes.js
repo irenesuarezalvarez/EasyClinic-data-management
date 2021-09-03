@@ -83,11 +83,8 @@ router.get('/edit/:id', (req, res, next) => {
 
 router.post('/edit/:id', (req, res, next) => {
     const { id } = req.params;
-    console.log('que llega?', req.body)
-
     Patient.findByIdAndUpdate(id, req.body , { new : true })
         .then((data) =>{
-            console.log("Here is the data", data);
             return res.status(200).json(data);
         })
         .catch(error => console.log(error));

@@ -10,14 +10,16 @@ module.exports = (app) => {
     saveUninitialized: false, 
     cookie: {
       maxAge: 24 * 60 * 60 * 365 * 1000,
-      sameSite: true, //SET BEFORE TO 'NONE', HERE WAS THE ERROR!!!!!!!!!!!!!SameSite=None; Secure
+      sameSite: "lax", //SET BEFORE TO 'NONE', HERE WAS THE ERROR!!!!!!!!!!!!!SameSite=None; Secure
       httpOnly: false
     },
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
       ttl: 60*60*24,
     })
-  })) 
+  })
+  ) 
+  
 };
 ////////
 /* module.exports = (app) => {

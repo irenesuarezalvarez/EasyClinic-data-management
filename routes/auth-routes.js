@@ -58,7 +58,7 @@ router.post('/login', (req, res, next) => {
         return;
       } else if (bcrypt.compareSync(password, professional.passwordHash)) {
         req.session.user = professional;
-        console.log('No error, user set to the session', req.session.user)
+        console.log('User set to the session', req.session.user)
         res.status(200).json(professional);
       } else {
         res.status(401).json({ errorMessage: 'Incorrect password.' });
