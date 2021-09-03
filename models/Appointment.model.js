@@ -1,3 +1,6 @@
+/* IN CONSTRUCTION */
+/* IN CONSTRUCTION */
+/* IN CONSTRUCTION */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -7,6 +10,5 @@ const appointmentSchema = new Schema({
     endTime: Date,
     professional: [{ type: Schema.Types.ObjectId, ref: 'Professional'}],
 });
-
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

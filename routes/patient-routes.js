@@ -50,7 +50,6 @@ router.post('/create', (req, res, next) => {
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
 
-
 //Send all patients from the db to the frontend
 router.get('/all', (req, res, next) => {
     Patient.find()
