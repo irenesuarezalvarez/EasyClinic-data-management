@@ -11,24 +11,21 @@ const app = express()
 
 require("./config/db.config");
 require("./config/session.config")(app); 
-require("./config/cloudinary.config"); //ADDEEED
+/* require("./config/BORRARcloudinary.config"); */ // BORRAR?
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 /* app.use(cookieParser()); */
-app.use(cors({ // to enable the server receive data
+app.use(cors({
   credentials: true,
   origin: [process.env.CLIENT_URL]
 }))
-
-
 
 app.use('/auth', require('./routes/auth-routes'));
 app.use('/patients', require('./routes/patient-routes'));
 app.use('/professionals', require('./routes/professional-routes'));
 app.use('/appointments', require('./routes/appointment-routes')); 
-app.use('/api', require('./routes/history-routes')); 
-
+app.use('/history', require('./routes/history-routes')); 
 
 app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))
 

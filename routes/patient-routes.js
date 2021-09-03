@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const fileUploader = require('../config/cloudinary.config');//for cloudinary
+/* const fileUploader = require('../config/BORRARcloudinary.config');/ */
 
 const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
@@ -25,7 +25,23 @@ router.post('/create', (req, res, next) => {
         professional, 
         history } = req.body;
 
-    Patient.create({ media, name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history })
+    Patient.create({ 
+        media, 
+        name, 
+        surname, 
+        email, 
+        phone, 
+        address, 
+        city, 
+        state, 
+        postal, 
+        contactname, 
+        contactsurname, 
+        contactemail, 
+        contactphone, 
+        professional, 
+        history 
+    })
         .then((patientsFromDb) => {
             Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
             console.log('New patient created in the backend', patientsFromDb )
@@ -91,7 +107,6 @@ router.delete('/all/:id/:professional', async (req, res, next) => {
     catch(error){
         next(error)
     } 
-    
 })
 
 //Search
@@ -103,6 +118,5 @@ router.post('/search', (req, res, next) => {
         })
         .catch(error => console.log(`Error while trying to search for a patient:`, error));
 })
-
 
 module.exports = router;

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
 const Appointment = require('../models/Appointment.model')
 
@@ -21,6 +20,5 @@ router.get('/app', (req, res, next) => {
         })
         .catch(error => console.log(`Error while searching for professionals:`, error));
 })
-
 
 module.exports = router;

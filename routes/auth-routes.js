@@ -50,7 +50,6 @@ router.post('/login', (req, res, next) => {
     });
   }
  
-  
   Professional.findOne({ email })
     .then(professional => {
     
