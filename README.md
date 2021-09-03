@@ -5,11 +5,11 @@
 
 <h2>Definition</h2>
 <p>How does it work? Utilizing Node technology, you just need to create your account, specify your role as administrative or as a professional, then log in. </p>
-<br/>
+
 <p>The administration position will bring you access to all the center’s patients, giving you the option to add new patients to the database, manage their information, assign a professional to them and create new appointments. Also, you will easily have an overview of each professional’s agenda. </p>
-<br/>
+
 <p>If you’re accessing our application as a professional, Easy Clinic will allow you an overview of all your patients. You’ll have access to their personal information, contact details and the authority to modify them if necessary. Additionally, Easy Clinic provides the option to write your session notes during the patient appointment, as well as access their clinical history and your agenda. </p>
-<br/>
+
 <p>Continuous complaints and issues with the current patient management system of the public health system in the Canaries have led to a desire for change. And so, the aim of this project was to create a more user friendly and efficient application that better facilitates the daily work of professionals and clinic workers.</p>
 
 <h2>Getting Started</h2>
