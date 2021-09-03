@@ -17,7 +17,7 @@
 
 Install Node.js.
 
--Install all dependencies:
+- Install all dependencies:
 ```
 $ npm install
 ````
