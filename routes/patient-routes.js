@@ -27,12 +27,10 @@ router.post('/create', (req, res, next) => {
 
     Patient.create({ media, name, surname, email, phone, address, city, state, postal, contactname, contactsurname, contactemail, contactphone, professional, history })
         .then((patientsFromDb) => {
-            return Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
+            Professional.findByIdAndUpdate( professional, { $push: { patients: patientsFromDb._id } });
+            console.log('New patient created in the backend', patientsFromDb )
+            return res.status(200).json(patientsFromDb);
         }) 
-        .then(() =>{
-            console.log('New patient created in the backend')
-            return res.status(200).json(professional);
-        })
         .catch(error => console.log(`Error while creating a new patient:`, error));
 })
 

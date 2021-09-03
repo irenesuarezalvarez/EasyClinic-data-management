@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Patient = require('../models/Patient.model');
 const Professional = require('../models/Professional.model');
+const Appointment = require('../models/Appointment.model')
 
 //Send professionals from the db to the front end
 router.get('/', (req, res, next) => {
@@ -12,5 +13,14 @@ router.get('/', (req, res, next) => {
         })
         .catch(error => console.log(`Error while searching for professionals:`, error));
 })
+
+router.get('/app', (req, res, next) => {
+    Appointment.find()
+        .then((appFromDb) =>{
+            return res.status(200).json(appFromDb);
+        })
+        .catch(error => console.log(`Error while searching for professionals:`, error));
+})
+
 
 module.exports = router;

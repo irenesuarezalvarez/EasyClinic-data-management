@@ -23,15 +23,11 @@ app.use(cors({ // to enable the server receive data
 
 
 
-// ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
-//require('./error-handling')(app);
-
 app.use('/auth', require('./routes/auth-routes'));
 app.use('/patients', require('./routes/patient-routes'));
 app.use('/professionals', require('./routes/professional-routes'));
 app.use('/appointments', require('./routes/appointment-routes')); 
 app.use('/api', require('./routes/history-routes')); 
-/* app.use(express.static(path.join(__dirname, "public"))); */
 
 
 app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`))

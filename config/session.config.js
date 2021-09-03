@@ -2,7 +2,7 @@
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 
-/* module.exports = (app) => {
+module.exports = (app) => {
   app.use(
     session({
     secret: process.env.SESS_SECRET,
@@ -11,7 +11,6 @@ const MongoStore = require("connect-mongo");
     cookie: {
       maxAge: 24 * 60 * 60 * 365 * 1000,
       sameSite: true, //SET BEFORE TO 'NONE', HERE WAS THE ERROR!!!!!!!!!!!!!SameSite=None; Secure
-      
       httpOnly: false
     },
     store: MongoStore.create({
@@ -19,9 +18,9 @@ const MongoStore = require("connect-mongo");
       ttl: 60*60*24,
     })
   })) 
-}; */
+};
 ////////
-module.exports = (app) => {
+/* module.exports = (app) => {
   app.use(
     session({
       secret: process.env.SESS_SECRET,
@@ -41,5 +40,5 @@ module.exports = (app) => {
       }),
     })
   );
-};
+}; */
 ///////
